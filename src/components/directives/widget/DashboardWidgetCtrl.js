@@ -76,6 +76,59 @@ angular.module('ui.dashboard')
         return templateString;
       };
 
+      // added maximize icon to widget header (dashboard.html template) - 4/2//2015 BM:
+      $scope.maxResizer = function (e) {
+        // TODO: properly restore the window to original position..
+
+        var widget = $scope.widget;
+        var widgetElm = $element.find('.widget');
+
+        e.stopPropagation();        // testing - same as grabSouthResizer() below
+        e.originalEvent.preventDefault();
+
+        var pixelHeight = widgetElm.height();
+        var pixelWidth = widgetElm.width();
+
+        // height differential (reduce height of container if inner widget is a treelist)
+        // (set to zero if you want the entire height of screen to be used)
+        var ht_diff = 200;  //  (chart != undefined ? 200 : 500);   // keep treelist height same as others
+        var newHeight = window.innerHeight - ht_diff;
+
+        if (!widget.maximized) {
+          // widget container maximize
+          widget.maximized = true;
+
+          widget.setWidth(window.innerWidth);
+          widget.setHeight(newHeight);        //window.innerHeight - ht_diff);
+
+          $scope.$emit('widgetChanged', widget);
+          //$scope.$apply();  // throwing inprog exceptions - 10/21/2015 BM:
+
+          $scope.$broadcast('widgetResized', {
+            width: window.innerWidth,
+            height: newHeight       //window.innerHeight - ht_diff
+          });
+
+        }
+        else {
+          // Restore container and chart to a smaller size; TODO: restore it to previous size (ie. maybe save the ht/width to scope ?)
+          widget.maximized = false;
+
+          var widthRestored = widget.fixedSize.width;         //(pixelWidth * .33).toString() + 'px';
+          var heightRestored = widget.fixedSize.height;
+
+          $scope.widget.setHeight(heightRestored + 'px');
+          widget.setWidth(widthRestored);
+
+          $scope.$emit('widgetChanged', widget);
+          //$scope.$apply();
+
+          var wid = widgetElm.width();
+          var ht = widgetElm.height();
+
+        }
+      };
+
       $scope.grabResizer = function(e) {
 
         var widget = $scope.widget;

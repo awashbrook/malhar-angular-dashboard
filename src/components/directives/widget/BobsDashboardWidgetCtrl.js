@@ -20,6 +20,8 @@
  *   Called by: 'widget' directive in dashboard-directives js
  */
 'use strict';
+// 2015: https://github.com/DataTorrent/malhar-angular-dashboard/pull/123#issuecomment-82506929
+// 2016: https://github.com/DataTorrent/malhar-angular-dashboard/issues/48#issuecomment-210605667
 
 angular.module('ui.dashboard')
   .controller('BobsDashboardWidgetCtrl', ['$scope', '$element', '$compile', '$window', '$timeout', 'kendoRefreshFactory',

@@ -90,7 +90,7 @@ angular.module('ui.dashboard')
         var pixelWidth = widgetElm.width();
 
         // height differential (set to zero if you want the entire height of screen to be used)
-        var ht_diff = 120;
+        var ht_diff = 170;
         var newHeight = window.innerHeight - ht_diff;
 
         if (!widget.maximized) {
@@ -107,7 +107,6 @@ angular.module('ui.dashboard')
             width: window.innerWidth,
             height: newHeight       //window.innerHeight - ht_diff
           });
-
         }
         else {
           // Restore container and chart to a smaller size; TODO: restore it to previous size (ie. maybe save the ht/width to scope ?)
@@ -117,14 +116,15 @@ angular.module('ui.dashboard')
           var heightRestored = widget.fixedSize.height;
 
           $scope.widget.setHeight(heightRestored + 'px');
-          widget.setWidth(widthRestored);
+          widget.setWidth(widthRestored + 'px');
 
           $scope.$emit('widgetChanged', widget);
           //$scope.$apply();
 
-          var wid = widgetElm.width();
-          var ht = widgetElm.height();
-
+          $scope.$broadcast('widgetResized', {
+            width: widthRestored,
+            height: heightRestored // no good
+          });
         }
       };
 

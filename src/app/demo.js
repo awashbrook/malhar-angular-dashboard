@@ -97,6 +97,14 @@ angular.module('app', [
         templateUrl: 'app/template/resizable.html',
         attrs: {
           class: 'demo-widget-resizable'
+        },
+        size: {
+          width: '350px',
+          height: '400px'
+        },
+        fixedSize: {
+          width: '350',
+          height: '400'
         }
       },
       {
